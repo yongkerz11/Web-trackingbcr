@@ -25,17 +25,17 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
+    <div className="mx-auto max-w-4xl space-y-4 md:space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <Link 
             href="/dashboard/shipments" 
-            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
           </Link>
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="text-xl md:text-2xl font-semibold text-gray-900 tracking-tight">
               {shipment.awb}
             </h1>
             <div className="mt-1 flex items-center gap-2 text-sm text-gray-500">
@@ -54,14 +54,14 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-2">
         {/* Identifiers & Parties */}
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {/* Removed Identifiers card since it's redundant with header */}
 
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Parties</h2>
+          <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Parties</h2>
             <dl className="space-y-4 text-sm">
               <div>
                 <dt className="text-gray-500">Company / Collaborator</dt>
@@ -89,9 +89,9 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
         </div>
 
         {/* Routing & Details */}
-        <div className="space-y-6">
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Routing</h2>
+        <div className="space-y-4 md:space-y-6">
+          <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Routing</h2>
             <div className="relative pl-6 space-y-6 before:absolute before:inset-y-0 before:left-2.5 before:w-px before:bg-gray-200">
               <div className="relative">
                 <div className="absolute -left-6 top-1 h-2 w-2 rounded-full bg-gray-300 ring-4 ring-white" />
@@ -106,8 +106,8 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
             </div>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Package & Planning</h2>
+          <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Package & Planning</h2>
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <div className="col-span-2">
                 <dt className="flex items-center gap-2 text-gray-500">
@@ -150,8 +150,8 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
         
         {/* Notes */}
         {shipment.notes && (
-          <div className="col-span-1 md:col-span-2 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Notes</h2>
+          <div className="col-span-1 md:col-span-2 rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Notes</h2>
             <p className="text-sm text-gray-600 whitespace-pre-wrap">{shipment.notes}</p>
           </div>
         )}

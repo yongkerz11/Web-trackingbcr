@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { LogOut, LayoutDashboard, Building2, Users, MapPin, Package, Settings, Bell, Search, ScanLine, Menu, MoreHorizontal } from 'lucide-react'
+import { LogOut, LayoutDashboard, Building2, Users, MapPin, Package, Settings, Bell, Search, ScanLine, Menu } from 'lucide-react'
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient()

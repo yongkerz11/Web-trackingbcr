@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import { Package, Truck, CheckCircle2, Plus, Search, Building2, ChevronRight, Clock } from 'lucide-react'
+import { Package, Truck, CheckCircle2, Plus, Search, ChevronRight, Clock } from 'lucide-react'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -43,7 +43,7 @@ export default async function DashboardPage() {
               Good afternoon, <span className="text-blue-400">{profile?.full_name?.split(' ')[0] || 'Operator'}</span>
             </h1>
             <p className="max-w-md text-xs md:text-sm leading-relaxed text-slate-400">
-              Here's your logistics operation today. Monitor active shipments and keep every handover moving.
+              Here&apos;s your logistics operation today. Monitor active shipments and keep every handover moving.
             </p>
           </div>
 
@@ -128,7 +128,7 @@ export default async function DashboardPage() {
                         <div>
                           <div className="font-semibold text-gray-900 text-sm md:text-base">{shipment.awb}</div>
                           <div className="text-[11px] md:text-xs text-gray-500">
-                            {(shipment.company as any)?.company_name} {shipment.no_dlv ? ` • ${shipment.no_dlv}` : ''}
+                            {((shipment.company as unknown) as { company_name: string })?.company_name} {shipment.no_dlv ? ` • ${shipment.no_dlv}` : ''}
                           </div>
                         </div>
                       </div>
