@@ -39,12 +39,17 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
               {shipment.awb}
             </h1>
             <div className="mt-1 flex items-center gap-2 text-sm text-gray-500">
-              <span className="inline-flex rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
+              <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200">
                 {shipment.current_status}
               </span>
               <span>•</span>
               <span>Data Entry</span>
             </div>
+            {shipment.no_dlv && (
+              <div className="mt-2 text-sm text-gray-500">
+                No DLV: {shipment.no_dlv}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -52,24 +57,11 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Identifiers & Parties */}
         <div className="space-y-6">
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">Identifiers</h2>
-            <dl className="space-y-4 text-sm">
-              <div>
-                <dt className="text-gray-500">AWB</dt>
-                <dd className="mt-1 font-medium text-gray-900">{shipment.awb}</dd>
-              </div>
-              {shipment.no_dlv && (
-                <div>
-                  <dt className="text-gray-500">No DLV</dt>
-                  <dd className="mt-1 font-medium text-gray-900">{shipment.no_dlv}</dd>
-                </div>
-              )}
-            </dl>
-          </div>
+          {/* Removed Identifiers card since it's redundant with header */}
+
 
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">Parties</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Parties</h2>
             <dl className="space-y-4 text-sm">
               <div>
                 <dt className="text-gray-500">Company / Collaborator</dt>
@@ -99,7 +91,7 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
         {/* Routing & Details */}
         <div className="space-y-6">
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">Routing</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Routing</h2>
             <div className="relative pl-6 space-y-6 before:absolute before:inset-y-0 before:left-2.5 before:w-px before:bg-gray-200">
               <div className="relative">
                 <div className="absolute -left-6 top-1 h-2 w-2 rounded-full bg-gray-300 ring-4 ring-white" />
@@ -107,7 +99,7 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
                 <div className="text-sm text-gray-500">{shipment.origin?.name} - {shipment.origin?.city}</div>
               </div>
               <div className="relative">
-                <div className="absolute -left-6 top-1 h-2 w-2 rounded-full bg-indigo-600 ring-4 ring-white" />
+                <div className="absolute -left-6 top-1 h-2 w-2 rounded-full bg-blue-600 ring-4 ring-white" />
                 <div className="text-sm font-medium text-gray-900">Destination</div>
                 <div className="text-sm text-gray-500">{shipment.destination?.name} - {shipment.destination?.city}</div>
               </div>
@@ -115,7 +107,7 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
           </div>
 
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">Package & Planning</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Package & Planning</h2>
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <div className="col-span-2">
                 <dt className="flex items-center gap-2 text-gray-500">
@@ -159,10 +151,19 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
         {/* Notes */}
         {shipment.notes && (
           <div className="col-span-1 md:col-span-2 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">Notes</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Notes</h2>
             <p className="text-sm text-gray-600 whitespace-pre-wrap">{shipment.notes}</p>
           </div>
         )}
+
+        {/* Tracking Timeline Placeholder */}
+        <div className="col-span-1 md:col-span-2 rounded-xl border border-dashed border-gray-300 bg-gray-50/50 p-12 text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-200 mb-4">
+            <Package className="h-6 w-6 text-gray-400" />
+          </div>
+          <h3 className="text-sm font-medium text-gray-900">Tracking Timeline</h3>
+          <p className="mt-1 text-sm text-gray-500">Coming in Phase 3.</p>
+        </div>
       </div>
     </div>
   )

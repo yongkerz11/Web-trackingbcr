@@ -38,7 +38,7 @@ export default async function NewShipmentPage() {
           <ArrowLeft className="h-4 w-4" />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Create Shipment</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">Create Shipment</h1>
           <p className="mt-1 text-sm text-gray-500">Add a new shipment to the system.</p>
         </div>
       </div>
@@ -48,7 +48,7 @@ export default async function NewShipmentPage() {
           
           {/* Company & Identifiers */}
           <section>
-            <h2 className="text-lg font-medium text-gray-900 mb-4 pb-2 border-b">Shipment Information</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Shipment Identity</h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label htmlFor="company_id" className="block text-sm font-medium text-gray-700">
@@ -58,7 +58,7 @@ export default async function NewShipmentPage() {
                   id="company_id"
                   name="company_id"
                   required
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50/50"
                 >
                   <option value="">Select company...</option>
                   {companies?.map(c => (
@@ -77,7 +77,7 @@ export default async function NewShipmentPage() {
                   name="awb"
                   required
                   placeholder="e.g. 3110190278971"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
@@ -90,7 +90,7 @@ export default async function NewShipmentPage() {
                   id="no_dlv"
                   name="no_dlv"
                   placeholder="e.g. 0685/PR.DLV/08/2025"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               
@@ -102,7 +102,7 @@ export default async function NewShipmentPage() {
                   id="recipient_id"
                   name="recipient_id"
                   required
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50/50"
                 >
                   <option value="">Select recipient...</option>
                   {recipients?.map(r => (
@@ -115,7 +115,7 @@ export default async function NewShipmentPage() {
 
           {/* Routing */}
           <section>
-            <h2 className="text-lg font-medium text-gray-900 mb-4 pb-2 border-b">Routing</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Routing</h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="origin_location_id" className="block text-sm font-medium text-gray-700">
@@ -125,7 +125,7 @@ export default async function NewShipmentPage() {
                   id="origin_location_id"
                   name="origin_location_id"
                   required
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50/50"
                 >
                   <option value="">Select origin...</option>
                   {locations?.map(l => (
@@ -142,7 +142,7 @@ export default async function NewShipmentPage() {
                   id="destination_location_id"
                   name="destination_location_id"
                   required
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50/50"
                 >
                   <option value="">Select destination...</option>
                   {locations?.map(l => (
@@ -155,7 +155,7 @@ export default async function NewShipmentPage() {
 
           {/* Package Details */}
           <section>
-            <h2 className="text-lg font-medium text-gray-900 mb-4 pb-2 border-b">Package Details</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Package Details</h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700">
@@ -166,7 +166,7 @@ export default async function NewShipmentPage() {
                   id="description"
                   name="description"
                   placeholder="e.g. Electronics, Documents"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
@@ -181,7 +181,7 @@ export default async function NewShipmentPage() {
                   min="1"
                   defaultValue="1"
                   required
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
@@ -195,7 +195,7 @@ export default async function NewShipmentPage() {
                   name="weight"
                   step="0.01"
                   min="0.01"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -203,7 +203,7 @@ export default async function NewShipmentPage() {
 
           {/* Planning */}
           <section>
-            <h2 className="text-lg font-medium text-gray-900 mb-4 pb-2 border-b">Planning</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Schedule & Notes</h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="shipment_date" className="block text-sm font-medium text-gray-700">
@@ -215,7 +215,7 @@ export default async function NewShipmentPage() {
                   name="shipment_date"
                   required
                   defaultValue={new Date().toISOString().split('T')[0]}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
@@ -227,7 +227,7 @@ export default async function NewShipmentPage() {
                   type="date"
                   id="expected_delivery_date"
                   name="expected_delivery_date"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               
@@ -239,7 +239,7 @@ export default async function NewShipmentPage() {
                   id="notes"
                   name="notes"
                   rows={3}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -248,13 +248,13 @@ export default async function NewShipmentPage() {
           <div className="flex justify-end gap-3 pt-4 border-t">
             <Link 
               href="/dashboard/shipments"
-              className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
             >
               Cancel
             </Link>
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm transition-colors"
             >
               Save Shipment
             </button>
