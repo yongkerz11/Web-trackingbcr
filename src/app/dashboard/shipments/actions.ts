@@ -16,7 +16,7 @@ export async function createShipment(formData: FormData) {
   const description = formData.get('description') as string || null
   const package_count = parseInt(formData.get('package_count') as string || '1', 10)
   const weight = formData.get('weight') ? parseFloat(formData.get('weight') as string) : null
-  const shipment_date = formData.get('shipment_date') as string
+  const shipment_date = formData.get('shipment_date') as string || new Date().toISOString().split('T')[0]
   const expected_delivery_date = formData.get('expected_delivery_date') as string || null
   const notes = formData.get('notes') as string || null
 

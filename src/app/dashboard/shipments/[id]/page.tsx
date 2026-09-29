@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -55,114 +56,124 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-2">
-        {/* Identifiers & Parties */}
+        {/* Shipment Details */}
         <div className="space-y-4 md:space-y-6">
-          {/* Removed Identifiers card since it's redundant with header */}
-
-
           <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Parties</h2>
+            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Shipment</h2>
             <dl className="space-y-4 text-sm">
               <div>
-                <dt className="text-gray-500">Company / Collaborator</dt>
+                <dt className="text-gray-500">Company / Shipper</dt>
                 <dd className="mt-1 font-medium text-gray-900">{shipment.company?.company_name}</dd>
               </div>
               <div>
                 <dt className="text-gray-500">Recipient</dt>
                 <dd className="mt-1 font-medium text-gray-900">
                   <div className="font-semibold">{shipment.recipient?.name}</div>
-                  <div className="text-gray-500 mt-1">{shipment.recipient?.phone}</div>
-                  <div className="text-gray-500 mt-1">
-                    {shipment.recipient?.address && `${shipment.recipient.address}, `}
-                    {shipment.recipient?.city}
-                  </div>
+                  <div className="text-gray-500 mt-0.5">{shipment.recipient?.phone}</div>
                 </dd>
               </div>
-              {shipment.vendor && (
-                <div>
-                  <dt className="text-gray-500">External Vendor</dt>
-                  <dd className="mt-1 font-medium text-gray-900">{shipment.vendor.vendor_name}</dd>
-                </div>
-              )}
+              {/* Mock fields for relation & courier since DB lacks them */}
+              <div>
+                <dt className="text-gray-500">Relation</dt>
+                <dd className="mt-1 font-medium text-gray-900">—</dd>
+              </div>
+              <div>
+                <dt className="text-gray-500">Courier</dt>
+                <dd className="mt-1 font-medium text-gray-900">{shipment.vendor?.vendor_name || '—'}</dd>
+              </div>
             </dl>
           </div>
+
+          {/* Only render Additional Information if there is data */}
+          {(shipment as Record<string, any>).reason_code || (shipment as Record<string, any>).reason_note ? (
+            <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+              <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Additional Information</h2>
+              <dl className="space-y-4 text-sm">
+                {(shipment as Record<string, any>).reason_code && (
+                  <div>
+                    <dt className="text-gray-500">Reason Code</dt>
+                    <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).reason_code}</dd>
+                  </div>
+                )}
+                {(shipment as Record<string, any>).reason_note && (
+                  <div>
+                    <dt className="text-gray-500">Reason Note</dt>
+                    <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).reason_note}</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          ) : null}
         </div>
 
-        {/* Routing & Details */}
+        {/* Tracking & Delivery */}
         <div className="space-y-4 md:space-y-6">
           <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Routing</h2>
-            <div className="relative pl-6 space-y-6 before:absolute before:inset-y-0 before:left-2.5 before:w-px before:bg-gray-200">
-              <div className="relative">
-                <div className="absolute -left-6 top-1 h-2 w-2 rounded-full bg-gray-300 ring-4 ring-white" />
-                <div className="text-sm font-medium text-gray-900">Origin</div>
-                <div className="text-sm text-gray-500">{shipment.origin?.name} - {shipment.origin?.city}</div>
-              </div>
-              <div className="relative">
-                <div className="absolute -left-6 top-1 h-2 w-2 rounded-full bg-blue-600 ring-4 ring-white" />
-                <div className="text-sm font-medium text-gray-900">Destination</div>
-                <div className="text-sm text-gray-500">{shipment.destination?.name} - {shipment.destination?.city}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Package & Planning</h2>
-            <dl className="grid grid-cols-2 gap-4 text-sm">
-              <div className="col-span-2">
-                <dt className="flex items-center gap-2 text-gray-500">
-                  <Package className="h-4 w-4" />
-                  Description
-                </dt>
-                <dd className="mt-1 font-medium text-gray-900">{shipment.description || '-'}</dd>
-              </div>
+            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Delivery Information</h2>
+            <dl className="space-y-4 text-sm">
               <div>
-                <dt className="text-gray-500">Quantity</dt>
-                <dd className="mt-1 font-medium text-gray-900">{shipment.package_count} package(s)</dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Weight</dt>
-                <dd className="mt-1 font-medium text-gray-900">
-                  {shipment.weight ? `${shipment.weight} ${shipment.weight_unit}` : '-'}
-                </dd>
+                <dt className="text-gray-500">Station</dt>
+                <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).station || '—'}</dd>
               </div>
               <div>
                 <dt className="flex items-center gap-2 text-gray-500">
                   <Calendar className="h-4 w-4" />
-                  Shipment Date
+                  Date & Time
                 </dt>
                 <dd className="mt-1 font-medium text-gray-900">
-                  {new Date(shipment.shipment_date).toLocaleDateString()}
+                  {(shipment as Record<string, any>).timestamp ? new Date((shipment as Record<string, any>).timestamp).toLocaleString() : new Date(shipment.shipment_date).toLocaleString()}
                 </dd>
               </div>
               <div>
-                <dt className="flex items-center gap-2 text-gray-500">
-                  <Calendar className="h-4 w-4" />
-                  Expected Delivery
-                </dt>
-                <dd className="mt-1 font-medium text-gray-900">
-                  {shipment.expected_delivery_date ? new Date(shipment.expected_delivery_date).toLocaleDateString() : '-'}
-                </dd>
+                <dt className="text-gray-500">Comment</dt>
+                <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).comment || '—'}</dd>
               </div>
             </dl>
           </div>
-        </div>
-        
-        {/* Notes */}
-        {shipment.notes && (
-          <div className="col-span-1 md:col-span-2 rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Notes</h2>
-            <p className="text-sm text-gray-600 whitespace-pre-wrap">{shipment.notes}</p>
-          </div>
-        )}
 
-        {/* Tracking Timeline Placeholder */}
-        <div className="col-span-1 md:col-span-2 rounded-xl border border-dashed border-gray-300 bg-gray-50/50 p-12 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-200 mb-4">
-            <Package className="h-6 w-6 text-gray-400" />
-          </div>
-          <h3 className="text-sm font-medium text-gray-900">Tracking Timeline</h3>
-          <p className="mt-1 text-sm text-gray-500">Coming in Phase 3.</p>
+          {/* Location */}
+          {((shipment as Record<string, any>).latitude || (shipment as Record<string, any>).longitude) && (
+            <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+              <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Location</h2>
+              <dl className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <dt className="text-gray-500">Latitude</dt>
+                  <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).latitude}</dd>
+                </div>
+                <div>
+                  <dt className="text-gray-500">Longitude</dt>
+                  <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).longitude}</dd>
+                </div>
+              </dl>
+            </div>
+          )}
+
+          {/* Proof of Delivery */}
+          {((shipment as Record<string, any>).photo || (shipment as Record<string, any>).signature) && (
+            <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+              <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Proof of Delivery</h2>
+              <dl className="space-y-4 text-sm">
+                {(shipment as Record<string, any>).photo && (
+                  <div>
+                    <dt className="text-gray-500 mb-2">Photo</dt>
+                    <dd className="mt-1">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={(shipment as Record<string, any>).photo} alt="Proof of delivery" className="w-full max-w-xs rounded-lg border border-gray-200" />
+                    </dd>
+                  </div>
+                )}
+                {(shipment as Record<string, any>).signature && (
+                  <div>
+                    <dt className="text-gray-500 mb-2">Signature</dt>
+                    <dd className="mt-1">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={(shipment as Record<string, any>).signature} alt="Signature" className="h-20 max-w-xs rounded-lg border border-gray-200 object-contain bg-white" />
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          )}
         </div>
       </div>
     </div>

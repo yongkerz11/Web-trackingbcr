@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from '@/lib/supabase/server'
-import { Search, Plus, MoreHorizontal, Package, ChevronRight } from 'lucide-react'
+import { Search, Plus, MoreHorizontal, Package } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function ShipmentsPage(props: { searchParams: Promise<{ q?: string }> }) {
@@ -57,10 +58,10 @@ export default async function ShipmentsPage(props: { searchParams: Promise<{ q?:
           <table className="w-full text-left text-sm text-gray-600">
             <thead className="border-b border-gray-200 bg-white text-[11px] font-semibold uppercase tracking-wider text-gray-500">
               <tr>
-                <th className="px-6 py-4 font-semibold">Identifiers</th>
+                <th className="px-6 py-4 font-semibold">AWB / No DLV</th>
                 <th className="px-6 py-4 font-semibold">Company & Recipient</th>
-                <th className="px-6 py-4 font-semibold hidden sm:table-cell">Destination</th>
-                <th className="px-6 py-4 font-semibold hidden sm:table-cell">Ship Date</th>
+                <th className="px-6 py-4 font-semibold hidden sm:table-cell">Station</th>
+                <th className="px-6 py-4 font-semibold hidden sm:table-cell">Timestamp</th>
                 <th className="px-6 py-4 font-semibold hidden md:table-cell">Status</th>
                 <th className="px-6 py-4 font-semibold text-right">Actions</th>
               </tr>
@@ -96,11 +97,10 @@ export default async function ShipmentsPage(props: { searchParams: Promise<{ q?:
                       <div className="text-gray-500 text-xs mt-1">{shipment.recipient?.name || '-'}</div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <div className="font-medium text-gray-900">{shipment.destination?.city || '-'}</div>
-                      <div className="text-gray-500 text-xs mt-1">{shipment.destination?.name || '-'}</div>
+                      <div className="font-medium text-gray-900">{(shipment as Record<string, any>).station || '-'}</div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      {new Date(shipment.shipment_date).toLocaleDateString()}
+                      {(shipment as Record<string, any>).timestamp ? new Date((shipment as Record<string, any>).timestamp).toLocaleString() : new Date(shipment.shipment_date).toLocaleString()}
                     </td>
                     <td className="px-6 py-4 hidden md:table-cell">
                       <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200">
@@ -138,27 +138,20 @@ export default async function ShipmentsPage(props: { searchParams: Promise<{ q?:
             shipments?.map((shipment: Record<string, unknown> | typeof shipments[0]) => (
               <Link key={shipment.id} href={`/dashboard/shipments/${shipment.id}`} className="block p-4 hover:bg-gray-50 active:bg-gray-100 transition-colors">
                 <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <div className="font-bold text-gray-900">{shipment.awb}</div>
-                    <div className="text-[11px] text-gray-500 font-mono mt-0.5">{shipment.company?.tracking_identifier_type || 'DE'}</div>
-                  </div>
+                  <div className="font-bold text-gray-900">{shipment.awb}</div>
                   <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-700 ring-1 ring-inset ring-slate-200">
                     {shipment.current_status}
                   </span>
                 </div>
                 {shipment.no_dlv && (
-                  <div className="text-xs text-gray-600 mb-2 font-medium">No DLV: {shipment.no_dlv}</div>
+                  <div className="mb-2">
+                    <div className="text-[11px] text-gray-500 font-medium">No DLV</div>
+                    <div className="text-xs text-gray-900">{shipment.no_dlv}</div>
+                  </div>
                 )}
-                <div className="text-xs text-gray-700 mb-1">{shipment.company?.company_name || '-'}</div>
-                <div className="text-[11px] text-gray-500">{shipment.recipient?.name || '-'}</div>
-                
-                <div className="mt-3 flex items-center justify-between text-[11px] text-gray-400 border-t border-gray-50 pt-3">
-                  <div className="flex items-center gap-1">
-                    <span>{new Date(shipment.shipment_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                  </div>
-                  <div className="flex items-center text-blue-600 font-medium">
-                    Details <ChevronRight className="h-3 w-3 ml-0.5" />
-                  </div>
+                <div className="mt-2 space-y-1">
+                  <div className="text-sm font-medium text-gray-900 uppercase">{shipment.company?.company_name || '-'}</div>
+                  <div className="text-xs text-gray-600">{(shipment as Record<string, any>).station || '-'}</div>
                 </div>
               </Link>
             ))
