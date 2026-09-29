@@ -28,20 +28,20 @@ export function TrackingTimeline({ events }: { events: TrackingEvent[] }) {
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
       <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-6">Tracking History</h2>
-      <div className="relative space-y-0 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-200 before:to-transparent">
+      <div className="relative space-y-0 before:absolute before:inset-0 before:ml-5 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-200 before:to-transparent">
         {sortedEvents.map((event) => {
           const config = STATUS_CONFIG[event.status] || STATUS_CONFIG['DE']
           const Icon = config.icon
 
           return (
-            <div key={event.id} className="relative flex items-start justify-between md:justify-normal md:odd:flex-row-reverse group is-active pb-8 last:pb-0">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 bg-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm z-10" style={{ borderColor: config.color.includes('border-') ? 'currentColor' : '' }}>
+            <div key={event.id} className="relative flex items-start gap-4 group is-active pb-8 last:pb-0">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 bg-white shrink-0 shadow-sm z-10" style={{ borderColor: config.color.includes('border-') ? 'currentColor' : '' }}>
                 <Icon className={`h-4 w-4 ${config.color.split(' ')[0]}`} />
               </div>
-              <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-gray-100 bg-gray-50/50 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1">
+              <div className="flex-1 p-4 rounded-xl border border-gray-100 bg-gray-50/50 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-1">
                   <span className={`font-semibold text-sm ${config.color.split(' ')[0]}`}>{config.label}</span>
-                  <time className="text-xs text-gray-500 font-medium">{new Date(event.timestamp).toLocaleString()}</time>
+                  <time className="text-xs text-gray-500 font-medium whitespace-nowrap">{new Date(event.timestamp).toLocaleString()}</time>
                 </div>
                 
                 {(event.station || event.location?.name) && (
