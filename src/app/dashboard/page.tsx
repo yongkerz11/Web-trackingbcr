@@ -29,7 +29,7 @@ export default async function DashboardPage() {
   const pending = totalShipments - inDelivery - delivered
 
   return (
-    <div className="space-y-4 md:space-y-6 p-4 md:p-8">
+    <div className="space-y-4 md:space-y-6">
       {/* PREMIUM HERO SECTION */}
       <div className="relative overflow-hidden rounded-2xl bg-[#0B1220] p-6 md:p-8 shadow-xl">
         {/* Decorative elements */}

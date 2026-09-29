@@ -142,7 +142,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
           </div>
         </header>
         
-        <main className="flex-1 overflow-y-auto pb-[72px] lg:pb-0">
+        <main className="flex-1 overflow-y-auto pb-[72px] lg:pb-0 p-4 md:p-6 lg:p-8">
           {children}
         </main>
         
