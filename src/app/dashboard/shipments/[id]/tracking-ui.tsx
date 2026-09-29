@@ -147,7 +147,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
               required
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option value="">Select Status</option>
               {nextStatuses.map(s => (
@@ -163,7 +163,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
               name="timestamp"
               required
               defaultValue={new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0,16)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -177,7 +177,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                 <select
                   id="location_id"
                   name="location_id"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="">Select Location (Optional)</option>
                   {locations.map(loc => (
@@ -192,7 +192,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                   id="station"
                   name="station"
                   placeholder="e.g. Mataram Ncs"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -204,7 +204,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                 id="comment"
                 name="comment"
                 placeholder="Optional notes about this update"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
@@ -218,7 +218,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                     name="reason_code"
                     required
                     placeholder="e.g. R01"
-                    className="mt-1 block w-full rounded-md border border-red-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                    className="mt-1 block w-full rounded-md border border-red-300 px-3 py-2 text-sm text-gray-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
                   />
                 </div>
                 <div>
@@ -228,7 +228,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                     id="reason_note"
                     name="reason_note"
                     placeholder="e.g. Address not found"
-                    className="mt-1 block w-full rounded-md border border-red-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
+                    className="mt-1 block w-full rounded-md border border-red-300 px-3 py-2 text-sm text-gray-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
                   />
                 </div>
               </div>
@@ -244,7 +244,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                     id="latitude"
                     name="latitude"
                     placeholder="e.g. -8.6167812"
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
                 <div>
@@ -255,7 +255,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                     id="longitude"
                     name="longitude"
                     placeholder="e.g. 116.1169707"
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -270,7 +270,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                     id="photo_url"
                     name="photo_url"
                     placeholder="https://..."
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
                 <div>
@@ -280,7 +280,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
                     id="signature_url"
                     name="signature_url"
                     placeholder="https://..."
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
               </div>
