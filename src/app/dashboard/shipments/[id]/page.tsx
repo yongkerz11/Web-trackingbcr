@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Package, Calendar } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
+
+import { TrackingTimeline, AddTrackingEventForm } from './tracking-ui'
 
 export default async function ShipmentDetailPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params
@@ -16,10 +17,13 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
       recipient:recipients!recipient_id (name, phone, address, city),
       origin:locations!origin_location_id (name, city),
       destination:locations!destination_location_id (name, city),
-      vendor:vendors!vendor_id (vendor_name)
+      vendor:vendors!vendor_id (vendor_name),
+      tracking_events (*, location:locations!location_id (name))
     `)
     .eq('id', params.id)
     .single()
+    
+  const { data: locations } = await supabase.from('locations').select('id, name').order('name')
 
   if (!shipment) {
     notFound()
@@ -84,96 +88,17 @@ export default async function ShipmentDetailPage(props: { params: Promise<{ id: 
             </dl>
           </div>
 
-          {/* Only render Additional Information if there is data */}
-          {(shipment as Record<string, any>).reason_code || (shipment as Record<string, any>).reason_note ? (
-            <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-              <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Additional Information</h2>
-              <dl className="space-y-4 text-sm">
-                {(shipment as Record<string, any>).reason_code && (
-                  <div>
-                    <dt className="text-gray-500">Reason Code</dt>
-                    <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).reason_code}</dd>
-                  </div>
-                )}
-                {(shipment as Record<string, any>).reason_note && (
-                  <div>
-                    <dt className="text-gray-500">Reason Note</dt>
-                    <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).reason_note}</dd>
-                  </div>
-                )}
-              </dl>
-            </div>
-          ) : null}
         </div>
 
-        {/* Tracking & Delivery */}
+        {/* Tracking Engine UI */}
         <div className="space-y-4 md:space-y-6">
-          <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-            <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Delivery Information</h2>
-            <dl className="space-y-4 text-sm">
-              <div>
-                <dt className="text-gray-500">Station</dt>
-                <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).station || '—'}</dd>
-              </div>
-              <div>
-                <dt className="flex items-center gap-2 text-gray-500">
-                  <Calendar className="h-4 w-4" />
-                  Date & Time
-                </dt>
-                <dd className="mt-1 font-medium text-gray-900">
-                  {(shipment as Record<string, any>).timestamp ? new Date((shipment as Record<string, any>).timestamp).toLocaleString() : new Date(shipment.shipment_date).toLocaleString()}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-gray-500">Comment</dt>
-                <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).comment || '—'}</dd>
-              </div>
-            </dl>
-          </div>
-
-          {/* Location */}
-          {((shipment as Record<string, any>).latitude || (shipment as Record<string, any>).longitude) && (
-            <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-              <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Location</h2>
-              <dl className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <dt className="text-gray-500">Latitude</dt>
-                  <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).latitude}</dd>
-                </div>
-                <div>
-                  <dt className="text-gray-500">Longitude</dt>
-                  <dd className="mt-1 font-medium text-gray-900">{(shipment as Record<string, any>).longitude}</dd>
-                </div>
-              </dl>
-            </div>
-          )}
-
-          {/* Proof of Delivery */}
-          {((shipment as Record<string, any>).photo || (shipment as Record<string, any>).signature) && (
-            <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-              <h2 className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 pb-2 border-b border-gray-100">Proof of Delivery</h2>
-              <dl className="space-y-4 text-sm">
-                {(shipment as Record<string, any>).photo && (
-                  <div>
-                    <dt className="text-gray-500 mb-2">Photo</dt>
-                    <dd className="mt-1">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={(shipment as Record<string, any>).photo} alt="Proof of delivery" className="w-full max-w-xs rounded-lg border border-gray-200" />
-                    </dd>
-                  </div>
-                )}
-                {(shipment as Record<string, any>).signature && (
-                  <div>
-                    <dt className="text-gray-500 mb-2">Signature</dt>
-                    <dd className="mt-1">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={(shipment as Record<string, any>).signature} alt="Signature" className="h-20 max-w-xs rounded-lg border border-gray-200 object-contain bg-white" />
-                    </dd>
-                  </div>
-                )}
-              </dl>
-            </div>
-          )}
+          <TrackingTimeline events={shipment.tracking_events || []} />
+          
+          <AddTrackingEventForm 
+            shipmentId={shipment.id} 
+            currentStatus={shipment.current_status} 
+            locations={locations || []} 
+          />
         </div>
       </div>
     </div>

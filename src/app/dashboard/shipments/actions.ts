@@ -57,3 +57,57 @@ export async function deleteShipment(id: string) {
   revalidatePath('/dashboard/shipments')
   return { success: true }
 }
+
+export async function createTrackingEvent(formData: FormData) {
+  const supabase = await createClient()
+  
+  const shipment_id = formData.get('shipment_id') as string
+  const status = formData.get('status') as string
+  let timestampStr = formData.get('timestamp') as string
+  
+  if (!timestampStr) {
+    timestampStr = new Date().toISOString()
+  } else {
+    // If it's a local datetime without timezone, append Z or user's offset (we'll just use what is passed, assuming it's valid ISO)
+    if (timestampStr.length === 16) { // YYYY-MM-DDTHH:mm
+      timestampStr = new Date(timestampStr).toISOString()
+    }
+  }
+
+  const location_id = formData.get('location_id') as string || null
+  const station = formData.get('station') as string || null
+  const comment = formData.get('comment') as string || null
+  const reason_code = formData.get('reason_code') as string || null
+  const reason_note = formData.get('reason_note') as string || null
+  
+  const latStr = formData.get('latitude') as string
+  const lngStr = formData.get('longitude') as string
+  const latitude = latStr ? parseFloat(latStr) : null
+  const longitude = lngStr ? parseFloat(lngStr) : null
+  
+  const photo_url = formData.get('photo_url') as string || null
+  const signature_url = formData.get('signature_url') as string || null
+
+  const { error } = await supabase.rpc('add_tracking_event', {
+    p_shipment_id: shipment_id,
+    p_status: status,
+    p_timestamp: timestampStr,
+    p_location_id: location_id,
+    p_station: station,
+    p_comment: comment,
+    p_reason_code: reason_code,
+    p_reason_note: reason_note,
+    p_latitude: latitude,
+    p_longitude: longitude,
+    p_photo_url: photo_url,
+    p_signature_url: signature_url
+  })
+
+  if (error) {
+    return { error: error.message }
+  }
+
+  revalidatePath(`/dashboard/shipments/${shipment_id}`)
+  revalidatePath('/dashboard/shipments')
+  return { success: true }
+}

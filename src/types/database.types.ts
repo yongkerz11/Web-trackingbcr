@@ -281,6 +281,82 @@ export type Database = {
           },
         ]
       }
+      tracking_events: {
+        Row: {
+          comment: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          latitude: number | null
+          location_id: string | null
+          longitude: number | null
+          photo_url: string | null
+          reason_code: string | null
+          reason_note: string | null
+          shipment_id: string
+          signature_url: string | null
+          station: string | null
+          status: string
+          timestamp: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          latitude?: number | null
+          location_id?: string | null
+          longitude?: number | null
+          photo_url?: string | null
+          reason_code?: string | null
+          reason_note?: string | null
+          shipment_id: string
+          signature_url?: string | null
+          station?: string | null
+          status: string
+          timestamp: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          latitude?: number | null
+          location_id?: string | null
+          longitude?: number | null
+          photo_url?: string | null
+          reason_code?: string | null
+          reason_note?: string | null
+          shipment_id?: string
+          signature_url?: string | null
+          station?: string | null
+          status?: string
+          timestamp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tracking_events_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracking_events_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tracking_events_shipment_id_fkey"
+            columns: ["shipment_id"]
+            isOneToOne: false
+            referencedRelation: "shipments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendors: {
         Row: {
           address: string | null
@@ -337,6 +413,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_tracking_event: {
+        Args: {
+          p_comment?: string
+          p_latitude?: number
+          p_location_id?: string
+          p_longitude?: number
+          p_photo_url?: string
+          p_reason_code?: string
+          p_reason_note?: string
+          p_shipment_id: string
+          p_signature_url?: string
+          p_station?: string
+          p_status: string
+          p_timestamp: string
+        }
+        Returns: Json
+      }
       get_user_role: {
         Args: never
         Returns: Database["public"]["Enums"]["user_role"]

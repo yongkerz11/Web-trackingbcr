@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { LogOut, LayoutDashboard, Building2, Users, MapPin, Package, Settings, Bell, Search, ScanLine, Menu } from 'lucide-react'
+import { LogOut, Package, Bell, Search } from 'lucide-react'
+import { SidebarNav, MobileNav } from './nav-links'
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient()
@@ -32,51 +32,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         </div>
         
         <nav className="flex-1 space-y-8 overflow-y-auto px-4 py-6 scrollbar-none">
-          <div>
-            <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-3">Operations</p>
-            <div className="space-y-1">
-              <Link href="/dashboard" className="flex items-center gap-3 rounded-lg bg-blue-600/10 px-3 py-2.5 text-sm font-medium text-blue-400 border border-blue-500/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-colors">
-                <LayoutDashboard className="h-4 w-4" />
-                Dashboard
-              </Link>
-              <Link href="/dashboard/shipments" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition-colors">
-                <Package className="h-4 w-4" />
-                Shipments
-              </Link>
-            </div>
-          </div>
-          
-          <div>
-            <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-3">Master Data</p>
-            <div className="space-y-1">
-              <Link href="/dashboard/companies" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition-colors">
-                <Building2 className="h-4 w-4" />
-                Companies
-              </Link>
-              <Link href="/dashboard/vendors" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition-colors">
-                <Users className="h-4 w-4" />
-                Vendors
-              </Link>
-              <Link href="/dashboard/locations" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition-colors">
-                <MapPin className="h-4 w-4" />
-                Locations
-              </Link>
-              <Link href="/dashboard/recipients" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition-colors">
-                <Users className="h-4 w-4" />
-                Recipients
-              </Link>
-            </div>
-          </div>
-
-          <div>
-            <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-3">System</p>
-            <div className="space-y-1">
-              <div className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 cursor-not-allowed opacity-50 transition-colors">
-                <Settings className="h-4 w-4" />
-                Settings
-              </div>
-            </div>
-          </div>
+          <SidebarNav />
         </nav>
         
         <div className="border-t border-[#1E293B] p-4 bg-[#0B1220]">
@@ -148,24 +104,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         
         {/* MOBILE BOTTOM NAVIGATION */}
         <nav className="fixed bottom-0 left-0 right-0 z-30 flex h-[68px] items-center justify-around border-t border-gray-200 bg-white px-2 pb-safe pt-1 shadow-[0_-4px_10px_rgba(0,0,0,0.02)] lg:hidden">
-          <Link href="/dashboard" className="flex flex-col items-center justify-center w-16 h-full gap-1 text-blue-600">
-            <LayoutDashboard className="h-5 w-5" />
-            <span className="text-[10px] font-medium">Home</span>
-          </Link>
-          <Link href="/dashboard/shipments" className="flex flex-col items-center justify-center w-16 h-full gap-1 text-slate-500 hover:text-slate-900 transition-colors">
-            <Package className="h-5 w-5" />
-            <span className="text-[10px] font-medium">Shipments</span>
-          </Link>
-          <div className="relative -top-4 flex flex-col items-center justify-center">
-            <button className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg ring-4 ring-white transition-transform active:scale-95 opacity-50 cursor-not-allowed">
-              <ScanLine className="h-5 w-5" />
-            </button>
-            <span className="text-[10px] font-medium text-slate-500 mt-1">Scan</span>
-          </div>
-          <Link href="/dashboard/companies" className="flex flex-col items-center justify-center w-16 h-full gap-1 text-slate-500 hover:text-slate-900 transition-colors">
-            <Menu className="h-5 w-5" />
-            <span className="text-[10px] font-medium">More</span>
-          </Link>
+          <MobileNav />
         </nav>
       </div>
     </div>
