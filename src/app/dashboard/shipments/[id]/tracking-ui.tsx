@@ -111,7 +111,8 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
-    const formData = new FormData(e.currentTarget)
+    const form = e.currentTarget
+    const formData = new FormData(form)
     formData.append('shipment_id', shipmentId)
 
     startTransition(async () => {
@@ -121,7 +122,7 @@ export function AddTrackingEventForm({ shipmentId, currentStatus, locations }: {
       } else {
         setStatus('')
         // Reset form
-        e.currentTarget.reset()
+        form.reset()
       }
     })
   }
