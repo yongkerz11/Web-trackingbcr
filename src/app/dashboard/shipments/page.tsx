@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createClient } from '@/lib/supabase/server'
-import { Search, Plus, MoreHorizontal, Package } from 'lucide-react'
+import { Search, Plus, MoreHorizontal, Package, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function ShipmentsPage(props: { searchParams: Promise<{ q?: string }> }) {
@@ -125,33 +125,39 @@ export default async function ShipmentsPage(props: { searchParams: Promise<{ q?:
         {/* MOBILE LIST VIEW */}
         <div className="md:hidden divide-y divide-gray-100">
           {shipments?.length === 0 ? (
-            <div className="px-4 py-12 text-center text-gray-500">
+            <div className="px-4 py-10 text-center text-gray-500">
               <div className="flex flex-col items-center justify-center">
-                <div className="rounded-full bg-slate-100 p-3 mb-3">
-                  <Package className="h-6 w-6 text-slate-400" />
-                </div>
-                <h3 className="text-sm font-medium text-gray-900">No shipments found</h3>
-                <p className="mt-1 text-xs text-gray-500">Try adjusting your search or create a new shipment.</p>
+                <Package className="h-8 w-8 text-gray-300 mb-2" />
+                <h3 className="text-sm font-semibold text-gray-900">No shipments found</h3>
+                <p className="mt-1 text-xs text-gray-500">Try adjusting your search.</p>
               </div>
             </div>
           ) : (
             shipments?.map((shipment: Record<string, unknown> | typeof shipments[0]) => (
-              <Link key={shipment.id} href={`/dashboard/shipments/${shipment.id}`} className="block p-4 hover:bg-gray-50 active:bg-gray-100 transition-colors">
-                <div className="flex justify-between items-start mb-2">
-                  <div className="font-bold text-gray-900">{shipment.awb}</div>
-                  <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-700 ring-1 ring-inset ring-slate-200">
-                    {shipment.current_status}
-                  </span>
-                </div>
-                {shipment.no_dlv && (
-                  <div className="mb-2">
-                    <div className="text-[11px] text-gray-500 font-medium">No DLV</div>
-                    <div className="text-xs text-gray-900">{shipment.no_dlv}</div>
+              <Link key={shipment.id} href={`/dashboard/shipments/${shipment.id}`} className="block p-4 hover:bg-gray-50 active:bg-gray-100 transition-colors group">
+                <div className="space-y-1 mb-3">
+                  <div className="font-bold text-gray-900 text-sm">
+                    {shipment.awb} {shipment.no_dlv ? <span className="text-gray-400 font-normal"> • {shipment.no_dlv}</span> : ''}
                   </div>
-                )}
-                <div className="mt-2 space-y-1">
-                  <div className="text-sm font-medium text-gray-900 uppercase">{shipment.company?.company_name || '-'}</div>
-                  <div className="text-xs text-gray-600">{(shipment as Record<string, any>).station || '-'}</div>
+                  <div className="text-xs font-semibold text-gray-700">{((shipment.company as unknown) as { company_name: string })?.company_name || '-'}</div>
+                  <div className="text-[11px] text-gray-500">{((shipment.recipient as unknown) as { name: string })?.name || '-'}</div>
+                </div>
+                
+                <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-700 uppercase tracking-wider">
+                      {shipment.current_status}
+                    </span>
+                    <span className="text-[11px] text-gray-600 truncate max-w-[120px]">
+                      {(shipment as Record<string, any>).station || 'System'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] text-gray-400">
+                      {new Date(shipment.shipment_date).toLocaleDateString()}
+                    </span>
+                    <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
+                  </div>
                 </div>
               </Link>
             ))
