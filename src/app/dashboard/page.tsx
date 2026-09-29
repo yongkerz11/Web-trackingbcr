@@ -139,7 +139,7 @@ export default async function DashboardPage() {
                         <div>
                           <div className="font-semibold text-gray-900">{shipment.awb}</div>
                           <div className="text-xs text-gray-500">
-                            {shipment.company?.company_name} {shipment.no_dlv ? ` • ${shipment.no_dlv}` : ''}
+                            {(shipment.company as any)?.company_name} {shipment.no_dlv ? ` • ${shipment.no_dlv}` : ''}
                           </div>
                         </div>
                       </div>
@@ -223,7 +223,7 @@ export default async function DashboardPage() {
             
             <div className="mt-4 pt-4 border-t border-gray-100">
               <div className="text-xs text-gray-500 mb-1">Signed in as</div>
-              <div className="text-sm font-medium text-gray-900 truncate">{user.email}</div>
+              <div className="text-sm font-medium text-gray-900 truncate">{user?.email || 'Unknown'}</div>
               <div className="text-xs font-medium text-blue-600 mt-1">{profile?.role}</div>
             </div>
           </div>
