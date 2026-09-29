@@ -29,45 +29,34 @@ export default async function DashboardPage() {
   const pending = totalShipments - inDelivery - delivered
 
   return (
-    <div className="space-y-6 p-4 md:p-8">
+    <div className="space-y-4 md:space-y-6 p-4 md:p-8">
       {/* PREMIUM HERO SECTION */}
-      <div className="relative overflow-hidden rounded-2xl bg-[#0B1220] p-8 shadow-xl">
+      <div className="relative overflow-hidden rounded-2xl bg-[#0B1220] p-6 md:p-8 shadow-xl">
         {/* Decorative elements */}
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl" />
         <div className="absolute -bottom-32 left-10 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl" />
-        <div className="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#0f172a] to-transparent opacity-80" />
+        <div className="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#0f172a] to-transparent opacity-80 hidden md:block" />
         
-        <div className="relative z-10 grid gap-8 md:grid-cols-2">
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
-              </span>
-              LOGISTICS TRACKING & HANDOVER
-            </div>
-            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Smarter Logistics,<br />
-              <span className="text-blue-400">Better Visibility</span>
+        <div className="relative z-10 grid gap-6 lg:grid-cols-2">
+          <div className="space-y-3 md:space-y-4">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Good afternoon, <span className="text-blue-400">{profile?.full_name?.split(' ')[0] || 'Operator'}</span>
             </h1>
-            <p className="max-w-md text-sm leading-relaxed text-slate-400">
-              Good afternoon, <span className="font-medium text-slate-200">{profile?.full_name || 'Operator'}</span>. Monitor active shipments and keep every handover moving efficiently across the network.
+            <p className="max-w-md text-xs md:text-sm leading-relaxed text-slate-400">
+              Here's your logistics operation today. Monitor active shipments and keep every handover moving.
             </p>
           </div>
 
-          <div className="flex items-center justify-end">
-            <div className="w-full max-w-sm rounded-xl border border-slate-700/50 bg-[#111827]/80 p-5 backdrop-blur-md">
-              <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-400">Today&apos;s Operations</h3>
-              <div className="flex items-end justify-between border-b border-slate-700/50 pb-4">
+          <div className="flex items-center lg:justify-end">
+            <div className="w-full lg:max-w-sm rounded-xl border border-slate-700/50 bg-[#111827]/80 p-4 md:p-5 backdrop-blur-md">
+              <h3 className="mb-3 md:mb-4 text-[10px] md:text-xs font-semibold uppercase tracking-wider text-slate-400">Today&apos;s Operations</h3>
+              <div className="flex items-end justify-between border-b border-slate-700/50 pb-3 md:pb-4">
                 <div>
-                  <div className="text-3xl font-bold text-white">{totalShipments}</div>
-                  <div className="text-sm font-medium text-slate-400">Active Shipments</div>
-                </div>
-                <div className="flex items-center gap-1 rounded bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400">
-                  +12% vs last week
+                  <div className="text-2xl md:text-3xl font-bold text-white">{totalShipments}</div>
+                  <div className="text-xs md:text-sm font-medium text-slate-400">Active Shipments</div>
                 </div>
               </div>
-              <div className="mt-4 flex gap-4 text-sm">
+              <div className="mt-3 md:mt-4 flex gap-4 text-xs md:text-sm">
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-blue-500"></div>
                   <span className="text-slate-300">{inDelivery} On Track</span>
@@ -131,28 +120,28 @@ export default async function DashboardPage() {
               {shipments && shipments.length > 0 ? (
                 <div className="divide-y divide-gray-100">
                   {shipments.map((shipment: Record<string, unknown> | typeof shipments[0]) => (
-                    <div key={shipment.id} className="flex items-center justify-between p-5 hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center gap-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+                    <div key={shipment.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-5 hover:bg-gray-50 transition-colors gap-3 sm:gap-0">
+                      <div className="flex items-start sm:items-center gap-3 md:gap-4">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 mt-1 sm:mt-0">
                           <Package className="h-5 w-5" />
                         </div>
                         <div>
-                          <div className="font-semibold text-gray-900">{shipment.awb}</div>
-                          <div className="text-xs text-gray-500">
+                          <div className="font-semibold text-gray-900 text-sm md:text-base">{shipment.awb}</div>
+                          <div className="text-[11px] md:text-xs text-gray-500">
                             {(shipment.company as any)?.company_name} {shipment.no_dlv ? ` • ${shipment.no_dlv}` : ''}
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4">
-                        <div className="text-right">
+                      <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 pl-13 sm:pl-0">
+                        <div className="text-left sm:text-right">
                           <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700">
                             {shipment.current_status}
                           </span>
-                          <div className="mt-1 text-xs text-gray-400">
+                          <div className="mt-1 text-[10px] md:text-xs text-gray-400">
                             {new Date(shipment.shipment_date).toLocaleDateString()}
                           </div>
                         </div>
-                        <ChevronRight className="h-4 w-4 text-gray-400" />
+                        <ChevronRight className="h-4 w-4 text-gray-400 hidden sm:block" />
                       </div>
                     </div>
                   ))}
@@ -174,45 +163,35 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* QUICK ACTIONS & SYSTEM */}
+        {/* QUICK ACTIONS */}
         <div className="col-span-1 space-y-6">
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">Quick Actions</h2>
-            <div className="space-y-2">
-              <Link href="/dashboard/shipments/new" className="group flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 hover:border-blue-500 hover:shadow-sm transition-all">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+          <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-5 shadow-sm">
+            <h2 className="text-sm md:text-base font-semibold text-gray-900 mb-3 md:mb-4">Quick Actions</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-2 md:space-y-2 md:gap-0">
+              <Link href="/dashboard/shipments/new" className="group flex flex-col lg:flex-row lg:items-center lg:justify-between rounded-lg border border-gray-200 bg-white p-3 hover:border-blue-500 hover:shadow-sm transition-all gap-2 lg:gap-0">
+                <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors shrink-0">
                     <Plus className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-medium text-gray-900">New Shipment</span>
+                  <span className="text-xs md:text-sm font-medium text-gray-900">New Shipment</span>
                 </div>
-                <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-500" />
+                <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-500 hidden lg:block" />
               </Link>
               
-              <Link href="/dashboard/shipments" className="group flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 hover:border-indigo-500 hover:shadow-sm transition-all">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+              <Link href="/dashboard/shipments" className="group flex flex-col lg:flex-row lg:items-center lg:justify-between rounded-lg border border-gray-200 bg-white p-3 hover:border-indigo-500 hover:shadow-sm transition-all gap-2 lg:gap-0">
+                <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
                     <Search className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-medium text-gray-900">Search Shipments</span>
+                  <span className="text-xs md:text-sm font-medium text-gray-900">Search Shipments</span>
                 </div>
-                <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-indigo-500" />
-              </Link>
-
-              <Link href="/dashboard/companies" className="group flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 hover:border-slate-500 hover:shadow-sm transition-all">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded bg-slate-100 text-slate-600 group-hover:bg-slate-700 group-hover:text-white transition-colors">
-                    <Building2 className="h-4 w-4" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-900">Manage Companies</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-slate-500" />
+                <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-indigo-500 hidden lg:block" />
               </Link>
             </div>
           </div>
-
-          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-4">System Status</h2>
+          {/* SYSTEM STATUS */}
+          <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-5 shadow-sm">
+            <h2 className="text-sm md:text-base font-semibold text-gray-900 mb-3 md:mb-4">System Status</h2>
             <div className="flex items-center gap-3 rounded-lg bg-emerald-50 p-3">
               <div className="flex h-2 w-2 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20" />
               <div>

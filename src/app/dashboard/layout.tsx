@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { LogOut, LayoutDashboard, Building2, Users, MapPin, Package, Settings, Bell, Search } from 'lucide-react'
+import { LogOut, LayoutDashboard, Building2, Users, MapPin, Package, Settings, Bell, Search, ScanLine, Menu, MoreHorizontal } from 'lucide-react'
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient()
@@ -98,22 +98,28 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         </div>
       </aside>
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden relative">
         {/* MOBILE HEADER */}
-        <header className="flex h-16 shrink-0 items-center justify-between bg-[#0B1220] px-4 md:hidden">
+        <header className="flex h-14 shrink-0 items-center justify-between bg-[#0B1220] px-4 lg:hidden sticky top-0 z-20">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
-              <Package className="h-5 w-5" />
+            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-600 text-white">
+              <Package className="h-4 w-4" />
             </div>
-            <span className="text-lg font-bold tracking-tight text-white">LogisticsPro</span>
+            <span className="text-base font-bold tracking-tight text-white">LogisticsPro</span>
           </div>
-          <button className="text-slate-400 hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-          </button>
+          <div className="flex items-center gap-4">
+            <button className="text-slate-400 hover:text-white relative">
+              <Bell className="h-5 w-5" />
+              <span className="absolute right-0 top-0 h-1.5 w-1.5 rounded-full bg-red-500 ring-1 ring-[#0B1220]" />
+            </button>
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-xs font-medium text-slate-300 ring-1 ring-slate-700">
+              {profile?.full_name?.charAt(0) || user.email?.charAt(0).toUpperCase()}
+            </div>
+          </div>
         </header>
 
         {/* TOPBAR DESKTOP */}
-        <header className="hidden h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white/50 px-8 backdrop-blur-sm md:flex">
+        <header className="hidden h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white/50 px-8 backdrop-blur-sm lg:flex sticky top-0 z-20">
           <div className="flex max-w-md flex-1 items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 shadow-sm transition-shadow focus-within:ring-2 focus-within:ring-blue-500/20">
             <Search className="h-4 w-4 text-gray-400" />
             <input 
@@ -136,9 +142,31 @@ export default async function DashboardLayout({ children }: { children: ReactNod
           </div>
         </header>
         
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto pb-[72px] lg:pb-0">
           {children}
         </main>
+        
+        {/* MOBILE BOTTOM NAVIGATION */}
+        <nav className="fixed bottom-0 left-0 right-0 z-30 flex h-[68px] items-center justify-around border-t border-gray-200 bg-white px-2 pb-safe pt-1 shadow-[0_-4px_10px_rgba(0,0,0,0.02)] lg:hidden">
+          <Link href="/dashboard" className="flex flex-col items-center justify-center w-16 h-full gap-1 text-blue-600">
+            <LayoutDashboard className="h-5 w-5" />
+            <span className="text-[10px] font-medium">Home</span>
+          </Link>
+          <Link href="/dashboard/shipments" className="flex flex-col items-center justify-center w-16 h-full gap-1 text-slate-500 hover:text-slate-900 transition-colors">
+            <Package className="h-5 w-5" />
+            <span className="text-[10px] font-medium">Shipments</span>
+          </Link>
+          <div className="relative -top-4 flex flex-col items-center justify-center">
+            <button className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg ring-4 ring-white transition-transform active:scale-95 opacity-50 cursor-not-allowed">
+              <ScanLine className="h-5 w-5" />
+            </button>
+            <span className="text-[10px] font-medium text-slate-500 mt-1">Scan</span>
+          </div>
+          <Link href="/dashboard/companies" className="flex flex-col items-center justify-center w-16 h-full gap-1 text-slate-500 hover:text-slate-900 transition-colors">
+            <Menu className="h-5 w-5" />
+            <span className="text-[10px] font-medium">More</span>
+          </Link>
+        </nav>
       </div>
     </div>
   )

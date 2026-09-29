@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { Search, Plus, MoreHorizontal, Package } from 'lucide-react'
+import { Search, Plus, MoreHorizontal, Package, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function ShipmentsPage(props: { searchParams: Promise<{ q?: string }> }) {
@@ -53,7 +53,7 @@ export default async function ShipmentsPage(props: { searchParams: Promise<{ q?:
           </form>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-600">
             <thead className="border-b border-gray-200 bg-white text-[11px] font-semibold uppercase tracking-wider text-gray-500">
               <tr>
@@ -120,6 +120,49 @@ export default async function ShipmentsPage(props: { searchParams: Promise<{ q?:
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* MOBILE LIST VIEW */}
+        <div className="md:hidden divide-y divide-gray-100">
+          {shipments?.length === 0 ? (
+            <div className="px-4 py-12 text-center text-gray-500">
+              <div className="flex flex-col items-center justify-center">
+                <div className="rounded-full bg-slate-100 p-3 mb-3">
+                  <Package className="h-6 w-6 text-slate-400" />
+                </div>
+                <h3 className="text-sm font-medium text-gray-900">No shipments found</h3>
+                <p className="mt-1 text-xs text-gray-500">Try adjusting your search or create a new shipment.</p>
+              </div>
+            </div>
+          ) : (
+            shipments?.map((shipment: Record<string, unknown> | typeof shipments[0]) => (
+              <Link key={shipment.id} href={`/dashboard/shipments/${shipment.id}`} className="block p-4 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <div className="font-bold text-gray-900">{shipment.awb}</div>
+                    <div className="text-[11px] text-gray-500 font-mono mt-0.5">{shipment.company?.tracking_identifier_type || 'DE'}</div>
+                  </div>
+                  <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-700 ring-1 ring-inset ring-slate-200">
+                    {shipment.current_status}
+                  </span>
+                </div>
+                {shipment.no_dlv && (
+                  <div className="text-xs text-gray-600 mb-2 font-medium">No DLV: {shipment.no_dlv}</div>
+                )}
+                <div className="text-xs text-gray-700 mb-1">{shipment.company?.company_name || '-'}</div>
+                <div className="text-[11px] text-gray-500">{shipment.recipient?.name || '-'}</div>
+                
+                <div className="mt-3 flex items-center justify-between text-[11px] text-gray-400 border-t border-gray-50 pt-3">
+                  <div className="flex items-center gap-1">
+                    <span>{new Date(shipment.shipment_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                  </div>
+                  <div className="flex items-center text-blue-600 font-medium">
+                    Details <ChevronRight className="h-3 w-3 ml-0.5" />
+                  </div>
+                </div>
+              </Link>
+            ))
+          )}
         </div>
       </div>
     </div>
