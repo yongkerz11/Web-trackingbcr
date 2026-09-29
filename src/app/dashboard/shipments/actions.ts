@@ -36,10 +36,23 @@ export async function createShipment(formData: FormData) {
     current_status: 'DE'
   }
 
-  const { error } = await supabase.from('shipments').insert(data)
+  const { data: insertedShipment, error } = await supabase.from('shipments').insert(data).select('id').single()
 
   if (error) {
     return { error: error.message }
+  }
+  
+  // Create initial DE tracking event
+  const { error: trackingError } = await supabase.from('tracking_events').insert({
+    shipment_id: insertedShipment.id,
+    status: 'DE',
+    timestamp: new Date().toISOString(),
+    station: 'System'
+  })
+  
+  if (trackingError) {
+    // We shouldn't fail the whole shipment creation, but we could log it
+    console.error("Failed to create initial tracking event", trackingError)
   }
 
   revalidatePath('/dashboard/shipments')
