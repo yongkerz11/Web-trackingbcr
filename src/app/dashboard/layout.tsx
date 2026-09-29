@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { LogOut, LayoutDashboard, Building2, Users, MapPin } from 'lucide-react'
+import { LogOut, LayoutDashboard, Building2, Users, MapPin, Package } from 'lucide-react'
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient()
@@ -25,6 +25,10 @@ export default async function DashboardLayout({ children }: { children: ReactNod
               <Link href="/dashboard" className="flex items-center gap-3 rounded-md bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700">
                 <LayoutDashboard className="h-5 w-5" />
                 Dashboard
+              </Link>
+              <Link href="/dashboard/shipments" className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <Package className="h-5 w-5 text-gray-400" />
+                Shipments
               </Link>
             </div>
           </div>

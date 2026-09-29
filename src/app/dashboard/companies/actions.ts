@@ -13,7 +13,7 @@ export async function createCompany(formData: FormData) {
     phone: formData.get('phone') as string,
     email: formData.get('email') as string,
     address: formData.get('address') as string,
-    status: formData.get('status') as any || 'ACTIVE',
+    status: (formData.get('status') as string) || 'ACTIVE',
     notes: formData.get('notes') as string,
   }
 
